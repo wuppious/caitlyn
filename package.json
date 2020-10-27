@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/wuppious/caitlyn#readme",
   "dependencies": {
+    "ecsy": "^0.4.2",
     "phaser": "^3.24.1"
   },
   "devDependencies": {
