@@ -52,11 +52,11 @@ const DrawSystem = (scene: Phaser.Scene) =>
     execute() {
       this.queries.add.results.forEach(entity => {
         let sprite = entity.getComponent<Sprite>(Sprite);
-        entity.addComponent(SpriteObject, {sprite_obj: scene.add.sprite(0, 0, sprite.name)})
+        entity.addComponent(SpriteObject, { sprite_obj: scene.add.sprite(0, 0, sprite.name) })
       });
 
       this.queries.remove.results.forEach(entity => {
-         entity.removeComponent(SpriteObject);
+        entity.removeComponent(SpriteObject);
         // TODO: yeet
       });
 
@@ -131,7 +131,7 @@ class Scene extends Phaser.Scene {
     this.world.registerSystem(ControlSystem(this.createKeyMap(keys)));
 
     let entity = this.world.createEntity();
-    entity.addComponent(Position, {x: 100, y: 100}).addComponent(Sprite, {name: 'rect'});
+    entity.addComponent(Position, { x: 100, y: 100 }).addComponent(Sprite, { name: 'rect' });
   }
 
   createKeyMap<T extends object>(map: T): KeyMap<T> {
