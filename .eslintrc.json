@@ -1,4 +1,3 @@
-/* eslint-env node */
 {
   "env": {
     "browser": true,
