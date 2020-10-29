@@ -1,7 +1,10 @@
 import { System } from 'ecsy';
+import Bullet from '../components/Bullet';
+import Collider from '../components/Collider';
 import Controllable from '../components/Controllable';
 import Move from '../components/Move';
 import Position from '../components/Position';
+import Sprite from '../components/Sprite';
 
 export type KeyMap<T> = {
   [K in keyof T]: Phaser.Input.Keyboard.Key;
@@ -18,6 +21,7 @@ const ControlSystem = (scene: Phaser.Scene) =>
   class ControlSystem extends System {
     keymap: KeyMap<typeof keys>;
     rightButtonDown = false;
+    leftButtonDown = false;
 
     static queries = {
       control: { components: [Controllable, Position] },
@@ -57,9 +61,24 @@ const ControlSystem = (scene: Phaser.Scene) =>
             speed,
           });
         }
+
+        if (mouse.leftButtonDown() && !this.leftButtonDown) {
+          const bullet = this.world.createEntity();
+          bullet
+            .addComponent(Position, { x: pos.x, y: pos.y })
+            .addComponent(Move, {
+              x: mouse.worldX,
+              y: mouse.worldY,
+              speed: 2000,
+            })
+            .addComponent(Collider, { radius: 2 })
+            .addComponent(Sprite, { name: 'bullet' })
+            .addComponent(Bullet);
+        }
       }
 
       this.rightButtonDown = mouse.rightButtonDown();
+      this.leftButtonDown = mouse.leftButtonDown();
     }
   };
 

@@ -11,6 +11,10 @@ import SpriteObject from './components/SpriteObject';
 import Controllable from './components/Controllable';
 import Move from './components/Move';
 import MoveSystem from './systems/MoveSystem';
+import Collider from './components/Collider';
+import CollidesWith from './components/CollidesWith';
+import Bullet from './components/Bullet';
+import BulletSystem from './systems/BulletSystem';
 
 class Scene extends Phaser.Scene {
   rect: Phaser.GameObjects.Sprite;
@@ -31,6 +35,11 @@ class Scene extends Phaser.Scene {
     cow.fillStyle(0xffff00);
     cow.fillCircle(20, 20, 20);
     cow.generateTexture('cow', 40, 40);
+
+    const bullet = new Phaser.GameObjects.Graphics(this);
+    bullet.fillStyle(0xffff00);
+    bullet.fillCircle(4, 4, 4);
+    bullet.generateTexture('bullet', 8, 8);
   }
 
   create() {
@@ -38,11 +47,15 @@ class Scene extends Phaser.Scene {
     this.world.registerComponent(Position);
     this.world.registerComponent(Move);
     this.world.registerComponent(Controllable);
+    this.world.registerComponent(Collider);
+    this.world.registerComponent(CollidesWith);
     this.world.registerComponent(Sprite);
     this.world.registerComponent(SpriteObject);
+    this.world.registerComponent(Bullet);
 
     this.world.registerSystem(ControlSystem(this));
     this.world.registerSystem(MoveSystem);
+    this.world.registerSystem(BulletSystem);
     this.world.registerSystem(DrawSystem(this));
 
     this.world
@@ -54,6 +67,7 @@ class Scene extends Phaser.Scene {
     this.world
       .createEntity()
       .addComponent(Position, { x: 300, y: 300 })
+      .addComponent(Collider, { radius: 20 })
       .addComponent(Sprite, { name: 'cow' });
   }
 
@@ -70,6 +84,10 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.ENVELOP,
   },
   scene: Scene,
+  fps: {
+    min: 30,
+    target: 60,
+  },
 };
 
 const game = new Phaser.Game(config);
