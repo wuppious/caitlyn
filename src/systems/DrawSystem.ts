@@ -1,15 +1,24 @@
 import { Not, System } from 'ecsy';
+import Move from '../components/Move';
 import Position from '../components/Position';
 import Sprite from '../components/Sprite';
 import SpriteObject from '../components/SpriteObject';
 
 const DrawSystem = (scene: Phaser.Scene) =>
   class DrawSystem extends System {
+    debugGraphic: Phaser.GameObjects.Graphics;
+
     static queries = {
       add: { components: [Sprite, Not(SpriteObject)] },
       remove: { components: [Not(Sprite), SpriteObject] },
       position: { components: [Position, SpriteObject] },
+
+      moves: { components: [Move] },
     };
+
+    init() {
+      this.debugGraphic = scene.add.graphics();
+    }
 
     execute() {
       this.queries.add.results.forEach(entity => {
@@ -20,8 +29,10 @@ const DrawSystem = (scene: Phaser.Scene) =>
       });
 
       this.queries.remove.results.forEach(entity => {
+        const sprite = entity.getComponent<SpriteObject>(SpriteObject);
+        sprite.sprite_obj.destroy();
+
         entity.removeComponent(SpriteObject);
-        // TODO: yeet
       });
 
       this.queries.position.results.forEach(entity => {
@@ -31,6 +42,15 @@ const DrawSystem = (scene: Phaser.Scene) =>
         sprite.sprite_obj.x = position.x;
         sprite.sprite_obj.y = position.y;
       });
+
+      // Debug graphics /////////////////////////////////////////////////////////
+
+      this.debugGraphic.clear();
+      this.debugGraphic.fillStyle(0xff0000);
+      for (const entity of this.queries.moves.results) {
+        const position = entity.getComponent<Move>(Move);
+        this.debugGraphic.fillCircle(position.x, position.y, 5);
+      }
     }
   };
 

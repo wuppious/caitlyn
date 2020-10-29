@@ -4,42 +4,57 @@ import { World } from 'ecsy';
 import './index.css';
 
 import DrawSystem from './systems/DrawSystem';
-import ControlSystem, { keys, KeyMap } from './systems/ControlSystem';
+import ControlSystem from './systems/ControlSystem';
 import Position from './components/Position';
 import Sprite from './components/Sprite';
 import SpriteObject from './components/SpriteObject';
+import Controllable from './components/Controllable';
+import Move from './components/Move';
+import MoveSystem from './systems/MoveSystem';
 
 class Scene extends Phaser.Scene {
-  keys: KeyMap<typeof keys>;
   rect: Phaser.GameObjects.Sprite;
   world: World;
 
   init() {
-    const g = new Phaser.GameObjects.Graphics(this);
-    g.fillStyle(0x0000ff);
-    g.fillRect(0, 0, 100, 100);
-    g.generateTexture('rect', 100, 100);
+    const player = new Phaser.GameObjects.Graphics(this);
+    player.fillStyle(0x0000ff);
+    player.fillCircle(20, 20, 20);
+    player.generateTexture('player', 40, 40);
+
+    const npc1 = new Phaser.GameObjects.Graphics(this);
+    npc1.fillStyle(0x00ff00);
+    npc1.fillCircle(20, 20, 20);
+    npc1.generateTexture('npc1', 40, 40);
+
+    const cow = new Phaser.GameObjects.Graphics(this);
+    cow.fillStyle(0xffff00);
+    cow.fillCircle(20, 20, 20);
+    cow.generateTexture('cow', 40, 40);
   }
 
   create() {
-    this.keys = this.createKeyMap(keys);
-
     this.world = new World();
     this.world.registerComponent(Position);
+    this.world.registerComponent(Move);
+    this.world.registerComponent(Controllable);
     this.world.registerComponent(Sprite);
     this.world.registerComponent(SpriteObject);
 
+    this.world.registerSystem(ControlSystem(this));
+    this.world.registerSystem(MoveSystem);
     this.world.registerSystem(DrawSystem(this));
-    this.world.registerSystem(ControlSystem(this, this.keys));
 
-    const entity = this.world.createEntity();
-    entity
+    this.world
+      .createEntity()
       .addComponent(Position, { x: 100, y: 100 })
-      .addComponent(Sprite, { name: 'rect' });
-  }
+      .addComponent(Controllable)
+      .addComponent(Sprite, { name: 'player' });
 
-  createKeyMap<T extends object>(map: T): KeyMap<T> {
-    return this.input.keyboard.addKeys(map) as any;
+    this.world
+      .createEntity()
+      .addComponent(Position, { x: 300, y: 300 })
+      .addComponent(Sprite, { name: 'cow' });
   }
 
   update(time: number, delta: number) {
