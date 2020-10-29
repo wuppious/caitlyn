@@ -7,6 +7,7 @@ import SpriteObject from '../components/SpriteObject';
 const DrawSystem = (scene: Phaser.Scene) =>
   class DrawSystem extends System {
     debugGraphic: Phaser.GameObjects.Graphics;
+    debugText: Phaser.GameObjects.Text;
 
     static queries = {
       add: { components: [Sprite, Not(SpriteObject)] },
@@ -18,9 +19,10 @@ const DrawSystem = (scene: Phaser.Scene) =>
 
     init() {
       this.debugGraphic = scene.add.graphics();
+      this.debugText = scene.add.text(10, 10, '');
     }
 
-    execute() {
+    execute(delta: number) {
       this.queries.add.results.forEach(entity => {
         const sprite = entity.getComponent<Sprite>(Sprite);
         entity.addComponent(SpriteObject, {
@@ -51,6 +53,9 @@ const DrawSystem = (scene: Phaser.Scene) =>
         const position = entity.getComponent<Move>(Move);
         this.debugGraphic.fillCircle(position.x, position.y, 5);
       }
+
+      this.debugGraphic.fillStyle(0xffffff);
+      this.debugText.setText('FPS: ' + 1 / delta);
     }
   };
 
