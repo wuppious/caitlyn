@@ -20,6 +20,7 @@ const DrawSystem = (scene: Phaser.Scene) =>
     init() {
       this.debugGraphic = scene.add.graphics();
       this.debugText = scene.add.text(10, 10, '');
+      this.debugText.setScrollFactor(0);
     }
 
     execute(delta: number) {
