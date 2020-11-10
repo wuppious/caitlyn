@@ -25,17 +25,17 @@ const CameraSystem = (scene: Phaser.Scene) =>
 
       this.queries.target.results.forEach(result => {
         if (this.target && this.target !== result) {
-          result.removeComponent(CameraTarget);
+          result.removeComponent<CameraTarget>(CameraTarget);
         }
       });
 
       this.queries.target.added.forEach(added => {
         if (this.target && this.target !== added) {
-          this.target.removeComponent(CameraTarget);
+          this.target.removeComponent<CameraTarget>(CameraTarget);
         }
 
         this.target = added;
-        const position = added.getComponent(Position);
+        const position = added.getComponent<Position>(Position);
         scene.cameras.main.startFollow(position);
       });
     }
