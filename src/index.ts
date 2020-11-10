@@ -15,6 +15,8 @@ import Collider from './components/Collider';
 import CollidesWith from './components/CollidesWith';
 import Bullet from './components/Bullet';
 import BulletSystem from './systems/BulletSystem';
+import CameraSystem from './systems/CameraSystem';
+import CameraTarget from './components/CameraTarget';
 
 class Scene extends Phaser.Scene {
   rect: Phaser.GameObjects.Sprite;
@@ -44,6 +46,7 @@ class Scene extends Phaser.Scene {
 
   create() {
     this.world = new World();
+
     this.world.registerComponent(Position);
     this.world.registerComponent(Move);
     this.world.registerComponent(Controllable);
@@ -52,14 +55,17 @@ class Scene extends Phaser.Scene {
     this.world.registerComponent(Sprite);
     this.world.registerComponent(SpriteObject);
     this.world.registerComponent(Bullet);
+    this.world.registerComponent(CameraTarget);
 
     this.world.registerSystem(ControlSystem(this));
     this.world.registerSystem(MoveSystem);
     this.world.registerSystem(BulletSystem);
+    this.world.registerSystem(CameraSystem(this));
     this.world.registerSystem(DrawSystem(this));
 
-    this.world
+    const player = this.world
       .createEntity()
+      .addComponent(CameraTarget)
       .addComponent(Position, { x: 100, y: 100 })
       .addComponent(Controllable)
       .addComponent(Sprite, { name: 'player' });
@@ -69,6 +75,8 @@ class Scene extends Phaser.Scene {
       .addComponent(Position, { x: 300, y: 300 })
       .addComponent(Collider, { radius: 20 })
       .addComponent(Sprite, { name: 'cow' });
+
+    setTimeout(() => player.removeComponent(CameraTarget), 20000);
   }
 
   update(time: number, delta: number) {
@@ -79,9 +87,9 @@ class Scene extends Phaser.Scene {
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
+  parent: 'game-root',
   scale: {
-    parent: 'game-root',
-    mode: Phaser.Scale.ENVELOP,
+    mode: Phaser.Scale.RESIZE,
   },
   scene: Scene,
   fps: {
