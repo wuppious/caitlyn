@@ -63,7 +63,7 @@ class Scene extends Phaser.Scene {
     this.world.registerSystem(CameraSystem(this));
     this.world.registerSystem(DrawSystem(this));
 
-    const player = this.world
+    this.world
       .createEntity()
       .addComponent(CameraTarget)
       .addComponent(Position, { x: 100, y: 100 })
@@ -75,8 +75,6 @@ class Scene extends Phaser.Scene {
       .addComponent(Position, { x: 300, y: 300 })
       .addComponent(Collider, { radius: 20 })
       .addComponent(Sprite, { name: 'cow' });
-
-    setTimeout(() => player.removeComponent(CameraTarget), 20000);
   }
 
   update(time: number, delta: number) {
