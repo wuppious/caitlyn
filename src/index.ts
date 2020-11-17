@@ -17,6 +17,9 @@ import Bullet from './components/Bullet';
 import BulletSystem from './systems/BulletSystem';
 import CameraSystem from './systems/CameraSystem';
 import CameraTarget from './components/CameraTarget';
+import Speech from './components/Speech';
+import SpeechSystem from './systems/SpeechSystem';
+import Speaker from './components/Speaker';
 
 class Scene extends Phaser.Scene {
   rect: Phaser.GameObjects.Sprite;
@@ -56,25 +59,29 @@ class Scene extends Phaser.Scene {
     this.world.registerComponent(SpriteObject);
     this.world.registerComponent(Bullet);
     this.world.registerComponent(CameraTarget);
+    this.world.registerComponent(Speaker);
+    this.world.registerComponent(Speech);
 
     this.world.registerSystem(ControlSystem(this));
     this.world.registerSystem(MoveSystem);
     this.world.registerSystem(BulletSystem);
+    this.world.registerSystem(SpeechSystem);
     this.world.registerSystem(CameraSystem(this));
     this.world.registerSystem(DrawSystem(this));
 
     this.world
       .createEntity()
-      .addComponent(CameraTarget)
-      .addComponent(Position, { x: 100, y: 100 })
-      .addComponent(Controllable)
-      .addComponent(Sprite, { name: 'player' });
+      .addComponent<CameraTarget>(CameraTarget)
+      .addComponent<Position>(Position, { x: 100, y: 100 })
+      .addComponent<Controllable>(Controllable)
+      .addComponent<Sprite>(Sprite, { name: 'player' });
 
     this.world
       .createEntity()
-      .addComponent(Position, { x: 300, y: 300 })
-      .addComponent(Collider, { radius: 20 })
-      .addComponent(Sprite, { name: 'cow' });
+      .addComponent<Position>(Position, { x: 300, y: 300 })
+      .addComponent<Collider>(Collider, { radius: 20 })
+      .addComponent<Speaker>(Speaker, { lines: ['Moo', 'Mooooooo', 'Hmmmmh'] })
+      .addComponent<Sprite>(Sprite, { name: 'cow' });
   }
 
   update(time: number, delta: number) {
