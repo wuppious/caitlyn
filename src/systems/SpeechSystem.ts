@@ -4,7 +4,7 @@ import Speech from '../components/Speech';
 
 export default class SpeechSystem extends System {
   static queries = {
-    speaker: {
+    speakers: {
       components: [Speaker],
     },
     speech: {
@@ -23,7 +23,7 @@ export default class SpeechSystem extends System {
       }
     });
 
-    this.queries.speaker.results.forEach(entity => {
+    this.queries.speakers.results.forEach(entity => {
       const speaker = entity.getMutableComponent<Speaker>(Speaker);
       if (speaker.timeout <= 0) {
         const index = Math.floor(speaker.lines.length * Math.random());
