@@ -9,7 +9,7 @@ const DrawSystem = (scene: Phaser.Scene) =>
   class DrawSystem extends System {
     debugGraphic: Phaser.GameObjects.Graphics;
     debugText: Phaser.GameObjects.Text;
-    speechBubbles: Phaser.GameObjects.Text[] = [];
+    speechBubbles: { [id: string]: Phaser.GameObjects.Text } = {};
 
     static queries = {
       add: { components: [Sprite, Not(SpriteObject)] },
@@ -72,15 +72,27 @@ const DrawSystem = (scene: Phaser.Scene) =>
     }
 
     renderSpeechBubbles() {
+      this.queries.speech.removed.forEach(entity => {
+        const text = this.speechBubbles[entity.id];
+        text.destroy();
+        delete this.speechBubbles[entity.id];
+      });
+
       this.queries.speech.added.forEach(entity => {
         const speech = entity.getMutableComponent<Speech>(Speech);
         const position = entity.getComponent<Position>(Position);
 
         const text = scene.add.text(position.x, position.y, speech.text);
-        const index = this.speechBubbles.push(text) - 1;
-
-        speech.bubbleIndex = index;
+        this.speechBubbles[entity.id] = text;
       });
+
+      this.queries.speech.results.forEach(entity => {
+        const position = entity.getComponent<Position>(Position);
+        const text = this.speechBubbles[entity.id];
+
+        text.setPosition(position.x - text.width / 2, position.y - 80, -1000);
+      });
+    }
 
       this.queries.speech.removed.forEach(entity => {
         const speech = entity.getRemovedComponent<Speech>(Speech);
