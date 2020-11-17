@@ -9,6 +9,11 @@
         "module": "ES6",
         "target": "ES6",
         "allowJs": true,
+        "baseUrl": "src",
+        "paths": {
+            "~/components/*": ["components/*"],
+            "~/systems/*": ["systems/*"],
+        }
     },
     "include": ["src"],
     "exclude": ["node_modules"]

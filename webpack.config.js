@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 /* eslint-env node */
 const path = require('path');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackTemplate = require('html-webpack-template');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -35,6 +36,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    plugins: [new TsconfigPathsPlugin()],
   },
   plugins: [
     new CleanWebpackPlugin(),

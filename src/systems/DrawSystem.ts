@@ -1,10 +1,10 @@
 import { Not, System } from 'ecsy';
-import Health from '../components/Health';
-import Move from '../components/Move';
-import Position from '../components/Position';
-import Speech from '../components/Speech';
-import Sprite from '../components/Sprite';
-import SpriteObject from '../components/SpriteObject';
+import Health from '~/components/Health';
+import Move from '~/components/Move';
+import Position from '~/components/Position';
+import Speech from '~/components/Speech';
+import Sprite from '~/components/Sprite';
+import SpriteObject from '~/components/SpriteObject';
 
 const DrawSystem = (scene: Phaser.Scene) =>
   class DrawSystem extends System {

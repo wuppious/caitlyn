@@ -1,26 +1,26 @@
 import Phaser from 'phaser';
 import { World } from 'ecsy';
 
-import DrawSystem from '../systems/DrawSystem';
-import ControlSystem from '../systems/ControlSystem';
-import Position from '../components/Position';
-import Sprite from '../components/Sprite';
-import SpriteObject from '../components/SpriteObject';
-import Controllable from '../components/Controllable';
-import Move from '../components/Move';
-import MoveSystem from '../systems/MoveSystem';
-import Collider from '../components/Collider';
-import CollidesWith from '../components/CollidesWith';
-import Bullet from '../components/Bullet';
-import BulletSystem from '../systems/BulletSystem';
-import Health from '../components/Health';
-import Damage from '../components/Damage';
-import DamageSystem from '../systems/DamageSystem';
-import CameraSystem from '../systems/CameraSystem';
-import CameraTarget from '../components/CameraTarget';
-import Speech from '../components/Speech';
-import SpeechSystem from '../systems/SpeechSystem';
-import Speaker from '../components/Speaker';
+import DrawSystem from '~/systems/DrawSystem';
+import ControlSystem from '~/systems/ControlSystem';
+import Position from '~/components/Position';
+import Sprite from '~/components/Sprite';
+import SpriteObject from '~/components/SpriteObject';
+import Controllable from '~/components/Controllable';
+import Move from '~/components/Move';
+import MoveSystem from '~/systems/MoveSystem';
+import Collider from '~/components/Collider';
+import CollidesWith from '~/components/CollidesWith';
+import Bullet from '~/components/Bullet';
+import BulletSystem from '~/systems/BulletSystem';
+import Health from '~/components/Health';
+import Damage from '~/components/Damage';
+import DamageSystem from '~/systems/DamageSystem';
+import CameraSystem from '~/systems/CameraSystem';
+import CameraTarget from '~/components/CameraTarget';
+import Speech from '~/components/Speech';
+import SpeechSystem from '~/systems/SpeechSystem';
+import Speaker from '~/components/Speaker';
 
 export default class WorldScene extends Phaser.Scene {
   world: World;
