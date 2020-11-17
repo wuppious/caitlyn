@@ -1,6 +1,6 @@
 import { System } from 'ecsy';
-import Damage from '~/components/Damage';
-import Health from '~/components/Health';
+import Damage from '~components/Damage';
+import Health from '~components/Health';
 
 export default class DamageSystem extends System {
   static queries = {

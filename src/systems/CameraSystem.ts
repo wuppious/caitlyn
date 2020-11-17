@@ -1,6 +1,6 @@
 import { Entity, System } from 'ecsy';
-import CameraTarget from '~/components/CameraTarget';
-import Position from '~/components/Position';
+import CameraTarget from '~components/CameraTarget';
+import Position from '~components/Position';
 
 const CameraSystem = (scene: Phaser.Scene) =>
   class CameraSystem extends System {

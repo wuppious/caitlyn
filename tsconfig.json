@@ -11,8 +11,8 @@
         "allowJs": true,
         "baseUrl": "src",
         "paths": {
-            "~/components/*": ["components/*"],
-            "~/systems/*": ["systems/*"],
+            "~components/*": ["components/*"],
+            "~systems/*": ["systems/*"],
         }
     },
     "include": ["src"],

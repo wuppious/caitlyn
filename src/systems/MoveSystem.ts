@@ -1,8 +1,8 @@
 import { Entity, System } from 'ecsy';
-import Collider from '~/components/Collider';
-import CollidesWith from '~/components/CollidesWith';
-import Move from '~/components/Move';
-import Position from '~/components/Position';
+import Collider from '~components/Collider';
+import CollidesWith from '~components/CollidesWith';
+import Move from '~components/Move';
+import Position from '~components/Position';
 
 export default class MoveSystem extends System {
   static queries = {

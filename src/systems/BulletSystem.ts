@@ -1,8 +1,8 @@
 import { Not, System } from 'ecsy';
-import Bullet from '~/components/Bullet';
-import CollidesWith from '~/components/CollidesWith';
-import Damage from '~/components/Damage';
-import Move from '~/components/Move';
+import Bullet from '~components/Bullet';
+import CollidesWith from '~components/CollidesWith';
+import Damage from '~components/Damage';
+import Move from '~components/Move';
 
 export default class BulletSystem extends System {
   static queries = {
