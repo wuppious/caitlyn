@@ -36,7 +36,7 @@ const CameraSystem = (scene: Phaser.Scene) =>
 
         this.target = added;
         const position = added.getComponent<Position>(Position);
-        scene.cameras.main.startFollow(position);
+        scene.cameras.main.startFollow(position, false, 0.05, 0.05);
       });
     }
   };
