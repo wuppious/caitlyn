@@ -1,4 +1,5 @@
 import { Not, System } from 'ecsy';
+import Health from '../components/Health';
 import Move from '../components/Move';
 import Position from '../components/Position';
 import Speech from '../components/Speech';
@@ -7,6 +8,7 @@ import SpriteObject from '../components/SpriteObject';
 
 const DrawSystem = (scene: Phaser.Scene) =>
   class DrawSystem extends System {
+    healthbarGraphic: Phaser.GameObjects.Graphics;
     debugGraphic: Phaser.GameObjects.Graphics;
     debugText: Phaser.GameObjects.Text;
     speechBubbles: { [id: string]: Phaser.GameObjects.Text } = {};
@@ -25,9 +27,14 @@ const DrawSystem = (scene: Phaser.Scene) =>
           removed: true,
         },
       },
+
+      healthbars: {
+        components: [Health, Position],
+      },
     };
 
     init() {
+      this.healthbarGraphic = scene.add.graphics();
       this.debugGraphic = scene.add.graphics();
       this.debugText = scene.add.text(10, 10, '');
       this.debugText.setScrollFactor(0);
@@ -57,6 +64,7 @@ const DrawSystem = (scene: Phaser.Scene) =>
       });
 
       this.renderSpeechBubbles();
+      this.renderHealthbars();
 
       // Debug graphics /////////////////////////////////////////////////////////
 
@@ -94,18 +102,36 @@ const DrawSystem = (scene: Phaser.Scene) =>
       });
     }
 
-      this.queries.speech.removed.forEach(entity => {
-        const speech = entity.getRemovedComponent<Speech>(Speech);
-        const [text] = this.speechBubbles.splice(speech.bubbleIndex, 1);
-        text.destroy();
-      });
+    renderHealthbars() {
+      this.healthbarGraphic.clear();
 
-      this.queries.speech.results.forEach(entity => {
-        const speech = entity.getComponent<Speech>(Speech);
+      this.queries.healthbars.results.forEach(entity => {
+        const health = entity.getComponent<Health>(Health);
+        if (health.max <= 0) return;
+
         const position = entity.getComponent<Position>(Position);
-        const text = this.speechBubbles[speech.bubbleIndex];
 
-        text.setPosition(position.x - text.width / 2, position.y - 80, -1000);
+        const HEALTHBAR_WIDTH = 80;
+        const HEALTHBAR_HEIGHT = 5;
+        const HEALTHBAR_OFFSET = 50;
+
+        const width = (HEALTHBAR_WIDTH * health.points) / health.max;
+
+        this.healthbarGraphic.fillStyle(0xff0000);
+        this.healthbarGraphic.fillRect(
+          position.x - HEALTHBAR_WIDTH / 2,
+          position.y - HEALTHBAR_HEIGHT / 2 + HEALTHBAR_OFFSET,
+          HEALTHBAR_WIDTH,
+          HEALTHBAR_HEIGHT
+        );
+
+        this.healthbarGraphic.fillStyle(0x00ff00);
+        this.healthbarGraphic.fillRect(
+          position.x - HEALTHBAR_WIDTH / 2,
+          position.y - HEALTHBAR_HEIGHT / 2 + HEALTHBAR_OFFSET,
+          width,
+          HEALTHBAR_HEIGHT
+        );
       });
     }
   };
