@@ -13,6 +13,9 @@ import Collider from '../components/Collider';
 import CollidesWith from '../components/CollidesWith';
 import Bullet from '../components/Bullet';
 import BulletSystem from '../systems/BulletSystem';
+import Health from '../components/Health';
+import Damage from '../components/Damage';
+import DamageSystem from '../systems/DamageSystem';
 import CameraSystem from '../systems/CameraSystem';
 import CameraTarget from '../components/CameraTarget';
 import Speech from '../components/Speech';
@@ -55,6 +58,8 @@ export default class WorldScene extends Phaser.Scene {
     this.world.registerComponent(Sprite);
     this.world.registerComponent(SpriteObject);
     this.world.registerComponent(Bullet);
+    this.world.registerComponent(Health);
+    this.world.registerComponent(Damage);
     this.world.registerComponent(CameraTarget);
     this.world.registerComponent(Speaker);
     this.world.registerComponent(Speech);
@@ -62,6 +67,7 @@ export default class WorldScene extends Phaser.Scene {
     this.world.registerSystem(ControlSystem(this));
     this.world.registerSystem(MoveSystem);
     this.world.registerSystem(BulletSystem);
+    this.world.registerSystem(DamageSystem);
     this.world.registerSystem(SpeechSystem);
     this.world.registerSystem(CameraSystem(this));
     this.world.registerSystem(DrawSystem(this));
@@ -77,6 +83,7 @@ export default class WorldScene extends Phaser.Scene {
       .createEntity()
       .addComponent<Position>(Position, { x: 300, y: 300 })
       .addComponent<Collider>(Collider, { radius: 20 })
+      .addComponent<Health>(Health, { points: 100, max: 100 })
       .addComponent<Speaker>(Speaker, { lines: ['Moo', 'Mooooooo', 'Hmmmmh'] })
       .addComponent<Sprite>(Sprite, { name: 'cow' });
   }

@@ -65,15 +65,15 @@ const ControlSystem = (scene: Phaser.Scene) =>
         if (mouse.leftButtonDown() && !this.leftButtonDown) {
           const bullet = this.world.createEntity();
           bullet
-            .addComponent(Position, { x: pos.x, y: pos.y })
-            .addComponent(Move, {
+            .addComponent<Position>(Position, { x: pos.x, y: pos.y })
+            .addComponent<Move>(Move, {
               x: mouse.worldX,
               y: mouse.worldY,
               speed: 2000,
             })
-            .addComponent(Collider, { radius: 2 })
-            .addComponent(Sprite, { name: 'bullet' })
-            .addComponent(Bullet);
+            .addComponent<Collider>(Collider, { radius: 2 })
+            .addComponent<Sprite>(Sprite, { name: 'bullet' })
+            .addComponent<Bullet>(Bullet, { damage: 45 });
         }
       }
 
