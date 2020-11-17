@@ -96,7 +96,10 @@ export default class WorldScene extends Phaser.Scene {
       .addComponent<Position>(Position, { x: 300, y: 300 })
       .addComponent<Collider>(Collider, { radius: 20 })
       .addComponent<Health>(Health, { points: 100, max: 100 })
-      .addComponent<Speaker>(Speaker, { lines: ['Moo', 'Mooooooo', 'Hmmmmh'] })
+      .addComponent<Speaker>(Speaker, {
+        lines: ['Moo', 'Mooooooo', 'Hmmmmh'],
+        hurtLines: ['MOOOO', 'MOOH'],
+      })
       .addComponent<Sprite>(Sprite, { name: 'cow' });
   }
 
