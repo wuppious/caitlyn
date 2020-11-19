@@ -1,6 +1,7 @@
 # Project
 node_modules/
 .log/
+*.log
 
 # Other
 .vscode/
