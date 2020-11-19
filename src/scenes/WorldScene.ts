@@ -23,6 +23,8 @@ import SpeechSystem from '~systems/SpeechSystem';
 import Speaker from '~components/Speaker';
 import Sound from '~components/Sound';
 import AudioSystem from '~systems/AudioSystem';
+import Player from 'entities/player';
+import Cow from 'entities/cow';
 import { generateGraphics } from 'utils';
 
 export default class WorldScene extends Phaser.Scene {
@@ -59,23 +61,15 @@ export default class WorldScene extends Phaser.Scene {
     this.world.registerSystem(CameraSystem(this));
     this.world.registerSystem(DrawSystem(this));
 
-    this.world
-      .createEntity()
-      .addComponent<CameraTarget>(CameraTarget)
-      .addComponent<Position>(Position, { x: 100, y: 100 })
-      .addComponent<Controllable>(Controllable)
-      .addComponent<Sprite>(Sprite, { name: 'player' });
+    const player = this.world.createEntity();
+    player.addComponent<Position>(Position, { x: 100, y: 200 });
 
-    this.world
-      .createEntity()
-      .addComponent<Position>(Position, { x: 300, y: 300 })
-      .addComponent<Collider>(Collider, { radius: 20 })
-      .addComponent<Health>(Health, { points: 100, max: 100 })
-      .addComponent<Speaker>(Speaker, {
-        lines: ['Moo', 'Mooooooo', 'Hmmmmh'],
-        hurtLines: ['MOOOO', 'MOOH'],
-      })
-      .addComponent<Sprite>(Sprite, { name: 'cow' });
+    Player(player);
+
+    const cow = this.world.createEntity();
+    cow.addComponent<Position>(Position, { x: 300, y: 400 });
+
+    Cow(cow);
   }
 
   update(time: number, delta: number) {
