@@ -41,6 +41,15 @@ const DrawSystem = (scene: Phaser.Scene) =>
     }
 
     execute(delta: number) {
+      this.handleSprites();
+
+      this.handleSpeechBubbles();
+      this.handleHealthbars();
+
+      this.handleDebugGraphics(delta);
+    }
+
+    handleSprites() {
       this.queries.add.results.forEach(entity => {
         const sprite = entity.getComponent<Sprite>(Sprite);
         entity.addComponent(SpriteObject, {
@@ -62,24 +71,9 @@ const DrawSystem = (scene: Phaser.Scene) =>
         sprite.sprite_obj.x = position.x;
         sprite.sprite_obj.y = position.y;
       });
-
-      this.renderSpeechBubbles();
-      this.renderHealthbars();
-
-      // Debug graphics /////////////////////////////////////////////////////////
-
-      this.debugGraphic.clear();
-      this.debugGraphic.fillStyle(0xff0000);
-      for (const entity of this.queries.moves.results) {
-        const position = entity.getComponent<Move>(Move);
-        this.debugGraphic.fillCircle(position.x, position.y, 5);
-      }
-
-      this.debugGraphic.fillStyle(0xffffff);
-      this.debugText.setText('FPS: ' + 1 / delta);
     }
 
-    renderSpeechBubbles() {
+    handleSpeechBubbles() {
       this.queries.speech.removed.forEach(entity => {
         const text = this.speechBubbles[entity.id];
         text.destroy();
@@ -102,7 +96,7 @@ const DrawSystem = (scene: Phaser.Scene) =>
       });
     }
 
-    renderHealthbars() {
+    handleHealthbars() {
       this.healthbarGraphic.clear();
 
       this.queries.healthbars.results.forEach(entity => {
@@ -133,6 +127,18 @@ const DrawSystem = (scene: Phaser.Scene) =>
           HEALTHBAR_HEIGHT
         );
       });
+    }
+
+    handleDebugGraphics(delta: number) {
+      this.debugGraphic.clear();
+      this.debugGraphic.fillStyle(0xff0000);
+      for (const entity of this.queries.moves.results) {
+        const position = entity.getComponent<Move>(Move);
+        this.debugGraphic.fillCircle(position.x, position.y, 5);
+      }
+
+      this.debugGraphic.fillStyle(0xffffff);
+      this.debugText.setText('FPS: ' + 1 / delta);
     }
   };
 
