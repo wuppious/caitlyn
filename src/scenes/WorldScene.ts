@@ -21,6 +21,8 @@ import CameraTarget from '~components/CameraTarget';
 import Speech from '~components/Speech';
 import SpeechSystem from '~systems/SpeechSystem';
 import Speaker from '~components/Speaker';
+import Sound from '~components/Sound';
+import AudioSystem from '~systems/AudioSystem';
 
 export default class WorldScene extends Phaser.Scene {
   world: World;
@@ -75,12 +77,14 @@ export default class WorldScene extends Phaser.Scene {
     this.world.registerComponent(CameraTarget);
     this.world.registerComponent(Speaker);
     this.world.registerComponent(Speech);
+    this.world.registerComponent(Sound);
 
     this.world.registerSystem(ControlSystem(this));
     this.world.registerSystem(MoveSystem);
     this.world.registerSystem(BulletSystem);
     this.world.registerSystem(DamageSystem);
     this.world.registerSystem(SpeechSystem);
+    this.world.registerSystem(AudioSystem(this));
     this.world.registerSystem(CameraSystem(this));
     this.world.registerSystem(DrawSystem(this));
 

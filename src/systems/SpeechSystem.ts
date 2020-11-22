@@ -1,5 +1,6 @@
 import { System } from 'ecsy';
 import Damage from '~components/Damage';
+import Sound from '~components/Sound';
 import Speaker from '~components/Speaker';
 import Speech from '~components/Speech';
 
@@ -27,28 +28,33 @@ export default class SpeechSystem extends System {
     this.queries.speakers.results.forEach(entity => {
       const speaker = entity.getMutableComponent<Speaker>(Speaker);
       const tookDamage = entity.hasComponent(Damage, true);
-      let line = '...';
+      let text = '...';
 
       if (speaker.timeout <= 0 || tookDamage) {
+        entity.addComponent<Sound>(Sound, {
+          description: 'test sound',
+          volume: 0.5,
+        });
+
         const timeout = 1 + Math.random();
         speaker.timeout = timeout + 2 + Math.random() * 2;
 
         if (tookDamage) {
           if (speaker.hurtLines.length > 0) {
             const index = Math.floor(speaker.hurtLines.length * Math.random());
-            line = speaker.hurtLines[index];
+            text = speaker.hurtLines[index];
           }
         } else {
           if (speaker.lines.length > 0) {
             const index = Math.floor(speaker.lines.length * Math.random());
-            line = speaker.lines[index];
+            text = speaker.lines[index];
           }
         }
 
         if (entity.hasComponent(Speech)) {
           entity.removeComponent(Speech);
         }
-        entity.addComponent<Speech>(Speech, { text: line, timeout });
+        entity.addComponent<Speech>(Speech, { text, timeout });
       } else {
         speaker.timeout -= delta;
       }
