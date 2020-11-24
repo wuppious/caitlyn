@@ -33,7 +33,7 @@ const AudioSystem = (scene: Phaser.Scene) =>
           );
         }
 
-        console.log(`Sound "${sound.description}"`, { balance, volume });
+        console.debug(`Sound "${sound.description}"`, { balance, volume });
         entity.removeComponent(Sound);
       });
     }
