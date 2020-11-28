@@ -26,6 +26,8 @@ export default class BulletSystem extends System {
           target.addComponent<Damage>(Damage, { points: bullet.damage });
         }
       });
+
+      entity.removeComponent(Move);
     });
   }
 }
