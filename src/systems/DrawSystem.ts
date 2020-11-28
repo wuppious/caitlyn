@@ -85,6 +85,7 @@ const DrawSystem = (scene: Phaser.Scene) =>
         const position = entity.getComponent<Position>(Position);
 
         const text = scene.add.text(position.x, position.y, speech.text);
+        text.setBackgroundColor('#000000aad');
         this.speechBubbles[entity.id] = text;
       });
 
