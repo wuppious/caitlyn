@@ -31,6 +31,7 @@ export default class SpeechSystem extends System {
       let text = '...';
 
       if (speaker.timeout <= 0 || tookDamage) {
+        entity.removeComponent(Sound);
         entity.addComponent<Sound>(Sound, {
           description: 'test sound',
           volume: 0.5,
