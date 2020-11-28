@@ -20,9 +20,11 @@
   "homepage": "https://github.com/wuppious/caitlyn#readme",
   "dependencies": {
     "ecsy": "^0.4.2",
+    "howler": "^2.2.1",
     "phaser": "^3.24.1"
   },
   "devDependencies": {
+    "@types/howler": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "clean-webpack-plugin": "^3.0.0",
