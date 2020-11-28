@@ -8,6 +8,7 @@ import SpriteObject from '~components/SpriteObject';
 
 const DrawSystem = (scene: Phaser.Scene) =>
   class DrawSystem extends System {
+    ground: Phaser.GameObjects.TileSprite;
     healthbarGraphic: Phaser.GameObjects.Graphics;
     debugGraphic: Phaser.GameObjects.Graphics;
     debugText: Phaser.GameObjects.Text;
@@ -34,6 +35,13 @@ const DrawSystem = (scene: Phaser.Scene) =>
     };
 
     init() {
+      this.ground = scene.add.tileSprite(
+        0,
+        0,
+        64 * 100,
+        64 * 100,
+        'background'
+      );
       this.healthbarGraphic = scene.add.graphics();
       this.debugGraphic = scene.add.graphics();
       this.debugText = scene.add.text(10, 10, '');

@@ -30,6 +30,10 @@ import { generateGraphics } from 'utils';
 export default class WorldScene extends Phaser.Scene {
   world: World;
 
+  preload() {
+    this.load.image('background', 'assets/tiles/background.png');
+  }
+
   init() {
     generateGraphics(this);
   }
