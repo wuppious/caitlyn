@@ -19,7 +19,12 @@ export default class BulletSystem extends System {
       const bullet = entity.getComponent<Bullet>(Bullet);
       const collider = entity.getComponent<CollidesWith>(CollidesWith);
       collider.targets.forEach(target => {
-        target.addComponent<Damage>(Damage, { points: bullet.damage });
+        if (target.hasComponent(Damage)) {
+          const damage = target.getMutableComponent<Damage>(Damage);
+          damage.points += bullet.damage;
+        } else {
+          target.addComponent<Damage>(Damage, { points: bullet.damage });
+        }
       });
     });
   }
