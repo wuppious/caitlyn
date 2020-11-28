@@ -1,13 +1,10 @@
 import { System, SystemQueries } from 'ecsy';
-import { Howl } from 'howler';
 import { distance2d } from 'utils';
 import Position from '~components/Position';
 import Sound from '~components/Sound';
 
 const AudioSystem = (scene: Phaser.Scene) =>
   class AudioSystem extends System {
-    moo: Howl;
-
     static queries: SystemQueries = {
       sounds: {
         components: [Sound],
@@ -18,17 +15,11 @@ const AudioSystem = (scene: Phaser.Scene) =>
       },
     };
 
-    init() {
-      this.moo = new Howl({
-        src: ['assets/audio/moo.ogg'],
-      });
-    }
-
     execute() {
       this.queries.sounds.added.forEach(entity => {
         const sound = entity.getMutableComponent<Sound>(Sound);
-        sound.audio_id = this.moo.play();
-        this.moo.rate(1.2 - Math.random() * 0.4, sound.audio_id);
+        sound.audio_id = sound.audio_obj.play();
+        sound.audio_obj.rate(sound.pitch, sound.audio_id);
       });
 
       this.queries.sounds.results.forEach(entity => {
@@ -54,11 +45,11 @@ const AudioSystem = (scene: Phaser.Scene) =>
           );
         }
 
-        this.moo.volume(volume, sound.audio_id);
-        this.moo.stereo(balance, sound.audio_id);
+        sound.audio_obj.volume(volume, sound.audio_id);
+        sound.audio_obj.stereo(balance, sound.audio_id);
 
-        if (!this.moo.playing(sound.audio_id)) {
-          this.moo.stop(sound.audio_id);
+        if (!sound.audio_obj.playing(sound.audio_id)) {
+          sound.audio_obj.stop(sound.audio_id);
           entity.removeComponent(Sound);
         }
       });

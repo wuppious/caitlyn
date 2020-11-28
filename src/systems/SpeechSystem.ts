@@ -1,4 +1,5 @@
 import { System } from 'ecsy';
+import sounds from 'sounds';
 import Damage from '~components/Damage';
 import Sound from '~components/Sound';
 import Speaker from '~components/Speaker';
@@ -29,14 +30,10 @@ export default class SpeechSystem extends System {
       const speaker = entity.getMutableComponent<Speaker>(Speaker);
       const tookDamage = entity.hasComponent(Damage, true);
       let text = '...';
+      let sound = undefined;
+      const pitch = 1.2 - Math.random() * 0.4;
 
       if (speaker.timeout <= 0 || tookDamage) {
-        entity.removeComponent(Sound);
-        entity.addComponent<Sound>(Sound, {
-          description: 'test sound',
-          volume: 0.5,
-        });
-
         const timeout = 1 + Math.random();
         speaker.timeout = timeout + 2 + Math.random() * 2;
 
@@ -44,17 +41,28 @@ export default class SpeechSystem extends System {
           if (speaker.hurtLines.length > 0) {
             const index = Math.floor(speaker.hurtLines.length * Math.random());
             text = speaker.hurtLines[index];
+            sound = sounds.cow.hurt;
           }
         } else {
           if (speaker.lines.length > 0) {
             const index = Math.floor(speaker.lines.length * Math.random());
             text = speaker.lines[index];
+            sound = sounds.cow.moo;
           }
         }
 
         if (entity.hasComponent(Speech)) {
           entity.removeComponent(Speech);
         }
+
+        entity.removeComponent(Sound);
+        entity.addComponent<Sound>(Sound, {
+          audio_obj: sound,
+          description: text,
+          volume: 0.5,
+          pitch,
+        });
+
         entity.addComponent<Speech>(Speech, { text, timeout });
       } else {
         speaker.timeout -= delta;
