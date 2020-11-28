@@ -31,11 +31,12 @@ export default class SpeechSystem extends System {
       const tookDamage = entity.hasComponent(Damage, true);
       let text = '...';
       let sound = undefined;
+      const volume = tookDamage ? 1 : 0.5;
       const pitch = 1.2 - Math.random() * 0.4;
 
       if (speaker.timeout <= 0 || tookDamage) {
         const timeout = 1 + Math.random();
-        speaker.timeout = timeout + 2 + Math.random() * 2;
+        speaker.timeout = timeout + 2 + Math.random() * 10;
 
         if (tookDamage) {
           if (speaker.hurtLines.length > 0) {
@@ -59,7 +60,7 @@ export default class SpeechSystem extends System {
         entity.addComponent<Sound>(Sound, {
           audio_obj: sound,
           description: text,
-          volume: 0.5,
+          volume,
           pitch,
         });
 
