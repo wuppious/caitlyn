@@ -1,7 +1,6 @@
 import { Component, ComponentSchema, Types } from 'ecsy';
-
 export default class Sound extends Component<void> {
-  audio_obj?: Phaser.Sound.BaseSound;
+  audio_id?: number;
   description: string;
   volume: number;
 
