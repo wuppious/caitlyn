@@ -1,4 +1,5 @@
 import { System } from 'ecsy';
+import Cow from 'entities/cow';
 import Bullet from '~components/Bullet';
 import Collider from '~components/Collider';
 import Controllable from '~components/Controllable';
@@ -22,6 +23,7 @@ const ControlSystem = (scene: Phaser.Scene) =>
     keymap: KeyMap<typeof keys>;
     rightButtonDown = false;
     leftButtonDown = false;
+    middleButtonDown = false;
 
     static queries = {
       control: { components: [Controllable, Position] },
@@ -77,8 +79,19 @@ const ControlSystem = (scene: Phaser.Scene) =>
         }
       }
 
+      if (mouse.middleButtonDown() && !this.middleButtonDown) {
+        const cow = this.world.createEntity();
+        cow.addComponent<Position>(Position, {
+          x: mouse.worldX,
+          y: mouse.worldY,
+        });
+
+        Cow(cow);
+      }
+
       this.rightButtonDown = mouse.rightButtonDown();
       this.leftButtonDown = mouse.leftButtonDown();
+      this.middleButtonDown = mouse.middleButtonDown();
     }
   };
 
