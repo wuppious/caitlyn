@@ -1,11 +1,11 @@
 import { System } from 'ecsy';
-import Cow from 'entities/cow';
-import Bullet from '~components/Bullet';
-import Collider from '~components/Collider';
-import Controllable from '~components/Controllable';
-import Move from '~components/Move';
-import Position from '~components/Position';
-import Sprite from '~components/Sprite';
+import Cow from '~/entities/cow';
+import Bullet from '~/components/Bullet';
+import Collider from '~/components/Collider';
+import Controllable from '~/components/Controllable';
+import Move from '~/components/Move';
+import Position from '~/components/Position';
+import Sprite from '~/components/Sprite';
 
 export type KeyMap<T> = {
   [K in keyof T]: Phaser.Input.Keyboard.Key;

@@ -1,8 +1,8 @@
 import { Entity } from 'ecsy';
-import Collider from '~components/Collider';
-import Health from '~components/Health';
-import Speaker from '~components/Speaker';
-import Sprite from '~components/Sprite';
+import Collider from '~/components/Collider';
+import Health from '~/components/Health';
+import Speaker from '~/components/Speaker';
+import Sprite from '~/components/Sprite';
 
 export default function Cow(entity: Entity): Entity {
   entity.addComponent<Collider>(Collider, { radius: 20 });

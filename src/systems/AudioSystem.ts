@@ -1,6 +1,6 @@
 import { System, SystemQueries } from 'ecsy';
-import Position from '~components/Position';
-import Sound from '~components/Sound';
+import Position from '~/components/Position';
+import Sound from '~/components/Sound';
 
 const AudioSystem = (scene: Phaser.Scene) =>
   class AudioSystem extends System {

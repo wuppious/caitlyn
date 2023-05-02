@@ -1,9 +1,9 @@
 import { System } from 'ecsy';
-import sounds from 'sounds';
-import Damage from '~components/Damage';
-import Sound from '~components/Sound';
-import Speaker from '~components/Speaker';
-import Speech from '~components/Speech';
+import sounds from '~/sounds';
+import Damage from '~/components/Damage';
+import Sound from '~/components/Sound';
+import Speaker from '~/components/Speaker';
+import Speech from '~/components/Speech';
 
 export default class SpeechSystem extends System {
   static queries = {
