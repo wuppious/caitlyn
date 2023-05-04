@@ -1,6 +1,7 @@
 import { World } from 'ecsy';
 import Phaser from 'phaser';
 
+import Audio from '~/components/Audio';
 import Bullet from '~/components/Bullet';
 import CameraTarget from '~/components/CameraTarget';
 import Collider from '~/components/Collider';
@@ -10,7 +11,6 @@ import Damage from '~/components/Damage';
 import Health from '~/components/Health';
 import Move from '~/components/Move';
 import Position from '~/components/Position';
-import Sound from '~/components/Sound';
 import Speaker from '~/components/Speaker';
 import Speech from '~/components/Speech';
 import Sprite from '~/components/Sprite';
@@ -18,6 +18,7 @@ import SpriteObject from '~/components/SpriteObject';
 import Cow from '~/entities/cow';
 import Player from '~/entities/player';
 import AudioSystem from '~/systems/AudioSystem';
+import AudioTestSystem from '~/systems/AudioTestSystem';
 import BulletSystem from '~/systems/BulletSystem';
 import CameraSystem from '~/systems/CameraSystem';
 import ControlSystem from '~/systems/ControlSystem';
@@ -54,7 +55,7 @@ export default class WorldScene extends Phaser.Scene {
     this.world.registerComponent(CameraTarget);
     this.world.registerComponent(Speaker);
     this.world.registerComponent(Speech);
-    this.world.registerComponent(Sound);
+    this.world.registerComponent(Audio);
 
     this.world.registerSystem(ControlSystem(this));
     this.world.registerSystem(MoveSystem);
@@ -62,18 +63,32 @@ export default class WorldScene extends Phaser.Scene {
     this.world.registerSystem(DamageSystem);
     this.world.registerSystem(SpeechSystem);
     this.world.registerSystem(AudioSystem(this));
+    this.world.registerSystem(AudioTestSystem);
     this.world.registerSystem(CameraSystem(this));
     this.world.registerSystem(DrawSystem(this));
 
     const player = this.world.createEntity();
-    player.addComponent<Position>(Position, { x: 100, y: 200 });
+    player.addComponent<Position>(Position, { x: 0, y: 0 });
 
     Player(player);
 
-    const cow = this.world.createEntity();
-    cow.addComponent<Position>(Position, { x: 300, y: 400 });
+    // const cow = this.world.createEntity();
+    // cow.addComponent<Position>(Position, { x: 300, y: 400 });
 
-    Cow(cow);
+    // Cow(cow);
+
+    // const cowTop = this.world.createEntity();
+    // cowTop.addComponent<Position>(Position, { x: 0, y: -400 });
+    // Cow(cowTop);
+    // const cowBottom = this.world.createEntity();
+    // cowBottom.addComponent<Position>(Position, { x: 0, y: 400 });
+    // Cow(cowBottom);
+    // const cowLeft = this.world.createEntity();
+    // cowLeft.addComponent<Position>(Position, { x: -400, y: 0 });
+    // Cow(cowLeft);
+    // const cowRight = this.world.createEntity();
+    // cowRight.addComponent<Position>(Position, { x: 400, y: 0 });
+    // Cow(cowRight);
   }
 
   update(time: number, delta: number) {

@@ -1,9 +1,9 @@
 import { System } from 'ecsy';
-import sounds from '~/sounds';
+import Audio from '~/components/Audio';
 import Damage from '~/components/Damage';
-import Sound from '~/components/Sound';
 import Speaker from '~/components/Speaker';
 import Speech from '~/components/Speech';
+import sounds from '~/sounds';
 
 export default class SpeechSystem extends System {
   static queries = {
@@ -56,9 +56,9 @@ export default class SpeechSystem extends System {
           entity.removeComponent(Speech);
         }
 
-        entity.removeComponent(Sound);
-        entity.addComponent<Sound>(Sound, {
-          audio_obj: sound,
+        entity.removeComponent(Audio);
+        entity.addComponent<Audio>(Audio, {
+          obj: sound,
           description: text,
           volume,
           pitch,

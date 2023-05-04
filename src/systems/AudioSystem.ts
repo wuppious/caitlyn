@@ -1,59 +1,94 @@
 import { System, SystemQueries } from 'ecsy';
+import Audio from '~/components/Audio';
 import Position from '~/components/Position';
-import Sound from '~/components/Sound';
 
 const AudioSystem = (scene: Phaser.Scene) =>
   class AudioSystem extends System {
     static queries: SystemQueries = {
-      sounds: {
-        components: [Sound],
+      audio: {
+        components: [Audio],
         listen: {
           added: true,
           removed: true,
         },
       },
+      positionalAudio: {
+        components: [Audio, Position],
+        listen: {
+          added: true,
+        },
+      },
     };
 
+    init() {
+      Howler.orientation(0, -1, 0, 0, 0, -1);
+    }
+
     execute() {
-      this.queries.sounds.added.forEach(entity => {
-        const sound = entity.getMutableComponent<Sound>(Sound);
-        sound.audio_id = sound.audio_obj.play();
-        sound.audio_obj.volume(sound.volume, sound.audio_id);
-        sound.audio_obj.rate(sound.pitch, sound.audio_id);
-        sound.audio_obj.pannerAttr(
-          {
-            refDistance: 1,
-            distanceModel: 'linear',
-            maxDistance: 1000,
-            panningModel: 'HRTF',
-            rolloffFactor: 0.1,
-          },
-          sound.audio_id
-        );
+      this.updateListener();
+      this.handleAdded();
+      this.handleRemoved();
+      this.update();
+    }
+
+    updateListener() {
+      Howler.pos(
+        scene.cameras.main.worldView.centerX,
+        scene.cameras.main.worldView.centerY,
+        5
+      );
+    }
+
+    handleAdded() {
+      this.queries.audio.added.forEach(entity => {
+        const audio = entity.getMutableComponent<Audio>(Audio);
+
+        audio.id = audio.obj.play();
+        audio.obj.loop(audio.loop, audio.id);
+        audio.obj.volume(audio.volume, audio.id);
+        audio.obj.rate(audio.pitch, audio.id);
       });
 
-      this.queries.sounds.results.forEach(entity => {
-        const sound = entity.getComponent<Sound>(Sound);
-        if (!sound.audio_obj.playing(sound.audio_id)) {
-          sound.audio_obj.stop(sound.audio_id);
-          entity.removeComponent(Sound);
+      this.queries.positionalAudio.added.forEach(entity => {
+        const audio = entity.getMutableComponent<Audio>(Audio);
+        const position = entity.getComponent<Position>(Position);
+        audio.obj.pos(position.x, position.y, 0, audio.id);
+        audio.obj.pannerAttr(
+          {
+            refDistance: 100,
+            distanceModel: 'inverse',
+            maxDistance: 1000,
+            panningModel: 'HRTF',
+            rolloffFactor: 1,
+          },
+          audio.id
+        );
+      });
+    }
+
+    handleRemoved() {
+      this.queries.audio.removed.forEach(entity => {
+        const audio = entity.getRemovedComponent<Audio>(Audio);
+        if (audio && audio.obj.playing(audio.id)) {
+          audio.obj.stop(audio.id);
+        }
+      });
+    }
+
+    update() {
+      this.queries.audio.results.forEach(entity => {
+        const audio = entity.getComponent<Audio>(Audio);
+
+        if (!audio.obj.playing(audio.id)) {
+          entity.removeComponent(Audio);
           return;
         }
+      });
 
-        if (entity.hasComponent(Position)) {
-          const position = entity.getComponent<Position>(Position);
-          const cameraPosition = {
-            x: scene.cameras.main.worldView.centerX,
-            y: scene.cameras.main.worldView.centerY,
-          };
-
-          sound.audio_obj.pos(
-            position.x - cameraPosition.x,
-            0,
-            position.y - cameraPosition.y,
-            sound.audio_id
-          );
-        }
+      this.queries.positionalAudio.results.forEach(entity => {
+        const audio = entity.getComponent<Audio>(Audio);
+        const position = entity.getComponent<Position>(Position);
+        audio.obj.pos(position.x, position.y, 0, audio.id);
       });
     }
   };
