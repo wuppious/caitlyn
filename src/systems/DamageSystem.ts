@@ -1,6 +1,7 @@
 import { System } from 'ecsy';
 import Damage from '~/components/Damage';
 import Health from '~/components/Health';
+import ToBeRemoved from '~/components/ToBeRemoved';
 
 export default class DamageSystem extends System {
   static queries = {
@@ -12,12 +13,12 @@ export default class DamageSystem extends System {
       const damage = entity.getComponent<Damage>(Damage);
       if (entity.hasComponent(Health)) {
         const health = entity.getMutableComponent<Health>(Health);
-        health.points -= damage.points;
+        health.points = Math.max(0, health.points - damage.points);
 
         entity.removeComponent(Damage);
 
-        if (health.points <= 0) {
-          entity.remove();
+        if (health.points == 0) {
+          entity.addComponent<ToBeRemoved>(ToBeRemoved);
         }
       }
     });
