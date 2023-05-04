@@ -9,6 +9,9 @@ const config: Phaser.Types.Core.GameConfig = {
   scale: {
     mode: Phaser.Scale.RESIZE,
   },
+  audio: {
+    noAudio: true,
+  },
   scene: WorldScene,
   fps: {
     min: 30,
