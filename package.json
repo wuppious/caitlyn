@@ -22,11 +22,13 @@
   "dependencies": {
     "ecsy": "^0.4.2",
     "howler": "^2.2.3",
-    "phaser": "^3.60.0"
+    "phaser": "^3.60.0",
+    "three": "^0.152.2"
   },
   "devDependencies": {
     "@types/howler": "^2.2.3",
     "@types/node": "^18.16.3",
+    "@types/three": "^0.152.0",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
     "eslint": "^8.39.0",
