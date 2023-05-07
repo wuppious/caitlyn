@@ -11,7 +11,7 @@ import Damage from '~/components/Damage';
 import Decay from '~/components/Decay';
 import Health from '~/components/Health';
 import Move from '~/components/Move';
-import Position from '~/components/Position';
+import PositionComponent from '~/components/PositionComponent';
 import Speaker from '~/components/Speaker';
 import Speech from '~/components/Speech';
 import Sprite from '~/components/Sprite';
@@ -44,7 +44,7 @@ export default class WorldScene extends Phaser.Scene {
   create() {
     this.world = new World();
 
-    this.world.registerComponent(Position);
+    this.world.registerComponent(PositionComponent);
     this.world.registerComponent(Move);
     this.world.registerComponent(Controllable);
     this.world.registerComponent(Collider);
@@ -73,7 +73,7 @@ export default class WorldScene extends Phaser.Scene {
     this.world.registerSystem(DrawSystem(this));
 
     const player = this.world.createEntity();
-    player.addComponent<Position>(Position, { x: 0, y: 0 });
+    player.addComponent<PositionComponent>(PositionComponent, { x: 0, y: 0 });
 
     Player(player);
 

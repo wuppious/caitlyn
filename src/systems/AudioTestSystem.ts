@@ -1,6 +1,6 @@
 import { Entity, System } from 'ecsy';
 import Audio from '~/components/Audio';
-import Position from '~/components/Position';
+import PositionComponent from '~/components/PositionComponent';
 import Sprite from '~/components/Sprite';
 import sounds from '~/sounds';
 
@@ -25,7 +25,7 @@ export default class AudioTestSystem extends System {
     this.origin.y = Math.sin(angle) * (Math.random() * 200 + 1000);
 
     this.entity = this.world.createEntity('Audio Test Entity');
-    this.entity.addComponent<Position>(Position, {
+    this.entity.addComponent<PositionComponent>(PositionComponent, {
       x: this.origin.x,
       y: this.origin.y,
     });
@@ -47,7 +47,8 @@ export default class AudioTestSystem extends System {
     const x = this.origin.x + Math.cos(angle) * distance;
     const y = this.origin.y + Math.sin(angle) * distance;
 
-    const position = this.entity.getMutableComponent<Position>(Position);
+    const position =
+      this.entity.getMutableComponent<PositionComponent>(PositionComponent);
     position.x = x;
     position.y = y;
   }

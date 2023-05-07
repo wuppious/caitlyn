@@ -1,22 +1,18 @@
-import Phaser from 'phaser';
-
+import { Clock, WebGLRenderer } from 'three';
 import './index.css';
-import WorldScene from './scenes/WorldScene';
+import WorldScene from './scenes/3DWorldScene';
 
-const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.AUTO,
-  parent: 'game-root',
-  scale: {
-    mode: Phaser.Scale.RESIZE,
-  },
-  audio: {
-    noAudio: true,
-  },
-  scene: WorldScene,
-  fps: {
-    min: 30,
-    target: 60,
-  },
-};
+const appNode = document.getElementById('game-root');
+const renderer = new WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+appNode.appendChild(renderer.domElement);
 
-const game = new Phaser.Game(config);
+const worldScene = new WorldScene(renderer);
+const clock = new Clock();
+
+function animate() {
+  requestAnimationFrame(animate);
+  worldScene.update(clock.getDelta(), clock.getElapsedTime());
+}
+
+animate();

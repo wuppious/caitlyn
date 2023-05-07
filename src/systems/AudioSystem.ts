@@ -1,6 +1,6 @@
 import { System, SystemQueries } from 'ecsy';
 import Audio from '~/components/Audio';
-import Position from '~/components/Position';
+import PositionComponent from '~/components/PositionComponent';
 
 const AudioSystem = (scene: Phaser.Scene) =>
   class AudioSystem extends System {
@@ -13,7 +13,7 @@ const AudioSystem = (scene: Phaser.Scene) =>
         },
       },
       positionalAudio: {
-        components: [Audio, Position],
+        components: [Audio, PositionComponent],
         listen: {
           added: true,
         },
@@ -51,8 +51,16 @@ const AudioSystem = (scene: Phaser.Scene) =>
 
       this.queries.positionalAudio.added.forEach(entity => {
         const audio = entity.getMutableComponent<Audio>(Audio);
-        const position = entity.getComponent<Position>(Position);
-        audio.obj.pos(position.x, position.y, 0, audio.id);
+        const position =
+          entity.getComponent<PositionComponent>(PositionComponent);
+
+        audio.obj.pos(
+          position.value.x,
+          position.value.y,
+          position.value.z,
+          audio.id
+        );
+
         audio.obj.pannerAttr(
           {
             refDistance: 100,
@@ -87,8 +95,15 @@ const AudioSystem = (scene: Phaser.Scene) =>
 
       this.queries.positionalAudio.results.forEach(entity => {
         const audio = entity.getComponent<Audio>(Audio);
-        const position = entity.getComponent<Position>(Position);
-        audio.obj.pos(position.x, position.y, 0, audio.id);
+        const position =
+          entity.getComponent<PositionComponent>(PositionComponent);
+
+        audio.obj.pos(
+          position.value.x,
+          position.value.y,
+          position.value.z,
+          audio.id
+        );
       });
     }
   };
